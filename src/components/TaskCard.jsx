@@ -1,9 +1,9 @@
-/* eslint-disable react/prop-types */
 import showMoreIcon from '../assets/icons/show-more.svg';
 import clockIcon from '../assets/icons/clock.svg';
 import '../css/taskcard.css';
+import moment from 'moment';
+
 export default function TaskCard({ status, tasks, onTaskUpdate, heading }) {
-  // Handle drag start by setting the taskId, sourceStatus, and draggedIndex in dataTransfer
   function handleOnDragStart(e, taskId) {
     e.dataTransfer.setData('taskId', taskId);
     e.dataTransfer.setData('sourceStatus', status);
@@ -31,25 +31,25 @@ export default function TaskCard({ status, tasks, onTaskUpdate, heading }) {
     <div onDrop={handleOnDrop} onDragOver={handleOnDragOver} className="task-column">
       <span className="status-header">
         <h4>{heading}</h4>
-        <img src={showMoreIcon} alt="" />
+        <img src={showMoreIcon} alt="Show more" />
       </span>
 
-      {tasks[status].map((task, index) => (
+      {tasks[status]?.map((task, index) => (
         <div
           className="task-card"
-          key={task.id}
+          key={task._id}
           draggable
-          onDragStart={(e) => handleOnDragStart(e, task.id, index)}
+          onDragStart={(e) => handleOnDragStart(e, task._id, index)}
           data-index={index}
         >
-          <h4 className="task-heading">{task.title}</h4>
-          <p className="task-desc">{task.desc}</p>
+          <h4 className="task-heading">{task.taskTitle}</h4>
+          <p className="task-desc">{task.description}</p>
           <p className={`priority ${task.priority}`}>
             {task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}
           </p>
           <p className="deadline">
-            <img src={clockIcon} alt="" />
-            {task.deadline}
+            <img src={clockIcon} alt="Clock" />
+            {moment(task.deadline).format('YYYY-MM-DD')}
           </p>
           <p>1 hr ago</p>
         </div>
