@@ -20,7 +20,8 @@ export default function TaskCard({ status, tasks, onTaskUpdate, heading }) {
       onTaskUpdate({
         sourceStatus,
         targetStatus: status,
-        taskId
+        taskId,
+        event: e
       });
     }
   }
