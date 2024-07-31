@@ -55,6 +55,7 @@ export default function AuthProvider({ children }) {
 
   function logoutUser() {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     navigate('/login');
   }
   return <authContext.Provider value={{ token, logoutUser, signUpUser, loginUser }}>{children}</authContext.Provider>;

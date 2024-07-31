@@ -67,7 +67,7 @@ export default function TaskContextProvider({ children }) {
           }
         }
       );
-      return response.status === 200 || false;
+      return response.status === 201 || false;
     } catch (error) {
       console.log(error);
     }
