@@ -20,56 +20,25 @@ import shareIcon from '../assets/icons/share.svg';
 import accessIcon from '../assets/icons/access.svg';
 import tagsIcon from '../assets/icons/tags.svg';
 import TaskCard from '../components/TaskCard';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import ProfileModal from '../components/CreateTaskModal';
+import { taskContext } from '../context/TaskContextProvider';
+import { authContext } from '../context/AuthContextProvider';
 export default function Landing() {
-  const [tasks, setTasks] = useState({
-    toDo: [
-      {
-        id: 1,
-        title: 'Implement User Authentication',
-        desc: 'Develop and integrate user authentication using email and password',
-        priority: 'urgent',
-        deadline: '2024-08-03'
-      }
-    ],
-    underReview: [
-      {
-        id: 2,
-        title: 'Design Home Page UI',
-        desc: 'Develop and integrate user authentication using email and password',
-        priority: 'urgent',
-        deadline: '2024-08-03'
-      }
-    ],
-    inProgress: [
-      {
-        id: 3,
-        title: 'Integrate Cloud Storage',
-        desc: 'Develop and integrate user authentication using email and password',
-        priority: 'low',
-        deadline: '2024-08-03'
-      }
-    ],
-    finished: [
-      {
-        id: 4,
-        title: 'Conduct User Feedback Survey',
-        desc: 'Develop and integrate user authentication using email and password',
-        priority: 'medium',
-        deadline: '2024-08-03'
-      }
-    ]
-  });
+  const { tasks, setTasks, getAllTasks, updateTask } = useContext(taskContext);
+  const { logOutUser } = useContext(authContext);
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleTaskUpdate = (sourceStatus, updatedSourceTasks, targetStatus, updatedTargetTasks) => {
-    setTasks((prevTasks) => ({
-      ...prevTasks,
-      [sourceStatus]: updatedSourceTasks,
-      [targetStatus]: updatedTargetTasks
-    }));
+  const handleTaskUpdate = async ({ targetStatus, taskId }) => {
+    const updateResponse = await updateTask(taskId, targetStatus);
+    if (updateResponse) {
+      const response = await getAllTasks();
+      setTasks(response);
+    }
   };
+  useEffect(() => {
+    getAllTasks();
+  }, []);
 
   return (
     <>
@@ -86,7 +55,9 @@ export default function Landing() {
               <img src={lightIcon} alt="" />
               <img src={forwardIcon} alt="" />
             </span>
-            <button className="logout-btn">Logout</button>
+            <button className="logout-btn" onClick={() => logOutUser()}>
+              Logout
+            </button>
           </div>
           <div className="links">
             <NavLink to="/" style={{ textDecoration: 'none' }}>
