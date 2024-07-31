@@ -3,7 +3,7 @@ import { useContext, useEffect } from 'react';
 import CreateTaskModal from '../components/CreateTaskModal';
 import { taskContext } from '../context/TaskContextProvider';
 import { authContext } from '../context/AuthContextProvider';
-import { getTimeOfDay } from '../components/utils';
+import { getTimeOfDay, notify } from '../components/utils';
 import bellIcon from '../assets/icons/bell.svg';
 import lightIcon from '../assets/icons/light.svg';
 import forwardIcon from '../assets/icons/forward.svg';
@@ -30,11 +30,14 @@ export default function Landing() {
   const { logoutUser } = useContext(authContext);
   const customerInfo = JSON.parse(localStorage.getItem('user'));
 
-  const handleTaskUpdate = async ({ targetStatus, taskId }) => {
+  const handleTaskUpdate = async ({ targetStatus, taskId, event: e }) => {
     const updateResponse = await updateTask(taskId, targetStatus);
     if (updateResponse) {
       const response = await getAllTasks();
       setTasks(response);
+      notify(e, 'update-success');
+    } else {
+      notify(e, 'update-failure');
     }
   };
   useEffect(() => {
