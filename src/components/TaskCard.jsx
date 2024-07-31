@@ -4,38 +4,25 @@ import clockIcon from '../assets/icons/clock.svg';
 import '../css/taskcard.css';
 export default function TaskCard({ status, tasks, onTaskUpdate, heading }) {
   // Handle drag start by setting the taskId, sourceStatus, and draggedIndex in dataTransfer
-  function handleOnDragStart(e, taskId, index) {
+  function handleOnDragStart(e, taskId) {
     e.dataTransfer.setData('taskId', taskId);
     e.dataTransfer.setData('sourceStatus', status);
-    e.dataTransfer.setData('draggedIndex', index);
   }
 
-  // Handle drop event
   function handleOnDrop(e) {
     e.preventDefault();
     const taskId = e.dataTransfer.getData('taskId');
     const sourceStatus = e.dataTransfer.getData('sourceStatus');
-    const draggedIndex = parseInt(e.dataTransfer.getData('draggedIndex'));
-    const dropIndex = parseInt(e.target.dataset.index);
 
-    if (sourceStatus === status) {
-      // Reordering within the same column
-      const updatedTasks = [...tasks[status]];
-      const [draggedTask] = updatedTasks.splice(draggedIndex, 1);
-      updatedTasks.splice(dropIndex, 0, draggedTask);
-
-      // Update state in the parent component
-      onTaskUpdate(status, updatedTasks);
-    } else {
-      // Moving tasks between columns
-      const updatedSourceTasks = tasks[sourceStatus].filter((t) => t.id !== parseInt(taskId));
-      const task = tasks[sourceStatus].find((t) => t.id === parseInt(taskId));
-      const updatedTargetTasks = [...tasks[status], task];
-      onTaskUpdate(sourceStatus, updatedSourceTasks, status, updatedTargetTasks);
+    if (sourceStatus !== status) {
+      onTaskUpdate({
+        sourceStatus,
+        targetStatus: status,
+        taskId
+      });
     }
   }
 
-  // Prevent default behavior to allow dropping
   function handleOnDragOver(e) {
     e.preventDefault();
   }
