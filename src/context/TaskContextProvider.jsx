@@ -5,7 +5,6 @@ export const taskContext = createContext();
 // eslint-disable-next-line react/prop-types
 export default function TaskContextProvider({ children }) {
   const token = localStorage.getItem('token');
-  const customerInfo = JSON.parse(localStorage.getItem('user'));
   const [isOpen, setIsOpen] = useState(false);
   const [tasks, setTasks] = useState({
     toDo: [
@@ -48,6 +47,7 @@ export default function TaskContextProvider({ children }) {
 
   async function createTask(taskObj) {
     const { priority, status, title, description, deadline } = taskObj;
+    const customerInfo = JSON.parse(localStorage.getItem('user'));
     try {
       const response = await axios.post(
         // 'http://localhost:5000/create',
@@ -74,6 +74,7 @@ export default function TaskContextProvider({ children }) {
   }
 
   async function getAllTasks() {
+    const customerInfo = JSON.parse(localStorage.getItem('user'));
     try {
       const response = await axios.get(
         // 'http://localhost:5000/all-tasks',
@@ -96,6 +97,7 @@ export default function TaskContextProvider({ children }) {
   }
 
   async function deleteTask(taskId) {
+    const customerInfo = JSON.parse(localStorage.getItem('user'));
     try {
       await axios.delete(
         // 'http://localhost:5000/delete',
@@ -116,6 +118,7 @@ export default function TaskContextProvider({ children }) {
     }
   }
   async function updateTask(taskId, status) {
+    const customerInfo = JSON.parse(localStorage.getItem('user'));
     try {
       const response = await axios.put(
         // 'http://localhost:5000/update',
