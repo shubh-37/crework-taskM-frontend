@@ -1,0 +1,56 @@
+.main-content {
+  grid-area: main-content;
+  border-right: 1px solid;
+  border-left: 1px solid;
+  height: fit-content;
+}
+
+.navbar {
+  grid-area: nav-bar;
+  position: sticky;
+  height: fit-content;
+  top: 0;
+}
+
+.home {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+  grid-template-areas: 'nav-bar main-content main-content main-content main-content';
+}
+
+.create-post-btn {
+  color: white;
+  background-color: #9333ea;
+  cursor: pointer;
+  font-size: 15px;
+  border-radius: 0.3rem;
+  padding: 0.5rem 0.7rem;
+  margin-left: 1rem;
+  border: none;
+}
+
+.links{
+    display: flex;
+    flex-direction: column;
+}
+
+.features{
+    display: flex;
+}
+
+.filters{
+    display: flex;
+    justify-content: space-between;
+}
+
+.filter-btns{
+    display: flex;
+    justify-content: space-around;
+    width: 50%;
+}
+
+.task-manager{
+    display: flex;
+    justify-content: space-between;
+}
