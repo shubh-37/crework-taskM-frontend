@@ -1,7 +1,9 @@
+/* eslint-disable react/prop-types */
+import moment from 'moment';
 import showMoreIcon from '../assets/icons/show-more.svg';
 import clockIcon from '../assets/icons/clock.svg';
+import { getTimeDifferenceInHours } from './utils';
 import '../css/taskcard.css';
-import moment from 'moment';
 
 export default function TaskCard({ status, tasks, onTaskUpdate, heading }) {
   function handleOnDragStart(e, taskId) {
@@ -51,7 +53,7 @@ export default function TaskCard({ status, tasks, onTaskUpdate, heading }) {
             <img src={clockIcon} alt="Clock" />
             {moment(task.deadline).format('YYYY-MM-DD')}
           </p>
-          <p>1 hr ago</p>
+          <p>{getTimeDifferenceInHours(task.createdAt).toFixed(0)} hr ago</p>
         </div>
       ))}
       <button className="add-new-btn">
