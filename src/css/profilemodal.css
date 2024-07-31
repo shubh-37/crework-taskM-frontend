@@ -1,0 +1,82 @@
+.modal-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-container {
+  width: 30rem;
+  height: 30rem;
+  border-radius: 0.3rem;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+  background-color: white;
+}
+
+.modal-container .modal-body {
+  display: inline-block;
+  margin-top: 0.5rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.close-btn {
+  background-color: transparent;
+  border: none;
+  font-size: medium;
+  cursor: pointer;
+}
+
+.modal-container .modal-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-container .modal-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.modal-container .modal-footer button {
+  width: 6rem;
+  height: 3rem;
+  margin: 1rem;
+  border: none;
+  background-color: cornflowerblue;
+  color: white;
+  border-radius: 0.3rem;
+  font-size: medium;
+  cursor: pointer;
+}
+
+.title {
+  font-size: 3rem;
+  width: 80%;
+  border: none;
+}
+
+.status {
+  border: none;
+  appearance: none;
+  width: 5rem;
+}
+
+.task-field {
+  display: flex;
+}
+
+.icon{
+    width: 24px;
+    height: 24px;
+}
