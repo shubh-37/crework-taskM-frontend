@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { authContext } from '../context/AuthContextProvider';
-import { toast } from 'react-toastify';
+import { notify } from '../components/utils';
 import '../css/login.css';
 
 export default function LoginPage() {
@@ -10,51 +10,6 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const emailChecker =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-  function notify(event, type) {
-    event.preventDefault();
-    if (type === 'failure') {
-      toast.error('User not found!', {
-        position: 'top-right',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined
-      });
-    } else if (type === 'wrong email') {
-      toast.error('Please enter valid email ID!', {
-        position: 'top-right',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined
-      });
-    } else if (type === 'success') {
-      toast.success('Login successful!', {
-        position: 'bottom-center',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined
-      });
-    } else {
-      toast.error('Please try again after sometime!', {
-        position: 'top-right',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined
-      });
-    }
-  }
 
   function inputHandler(e) {
     setUser({
