@@ -46,7 +46,7 @@ export default function TaskContextProvider({ children }) {
   });
 
   async function createTask(taskObj) {
-    const { priority, status, title, description } = taskObj;
+    const { priority, status, title, description, deadline } = taskObj;
     try {
       const response = await axios.post(
         'http://localhost:5000/create',
@@ -56,7 +56,8 @@ export default function TaskContextProvider({ children }) {
           priority,
           status,
           title,
-          description
+          description,
+          deadline
         },
         {
           headers: {
@@ -65,6 +66,7 @@ export default function TaskContextProvider({ children }) {
           }
         }
       );
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -73,9 +75,8 @@ export default function TaskContextProvider({ children }) {
   async function getAllTasks() {
     try {
       const response = await axios.get(
-        'http://localhost:5000/',
+        'http://localhost:5000/all-tasks',
         // 'https://crework.bilzo.in/',
-
         {
           params: {
             userId: customerInfo._id
@@ -86,9 +87,8 @@ export default function TaskContextProvider({ children }) {
           }
         }
       );
-
-      localStorage.setItem('subscriptionInfo', JSON.stringify(response.data.subscriptionInstance));
-      return response.status;
+      setTasks(response.data.taskObj);
+      return response.data.taskObj;
     } catch (error) {
       console.log(error);
     }
@@ -96,7 +96,7 @@ export default function TaskContextProvider({ children }) {
 
   async function deleteTask(taskId) {
     try {
-      const response = await axios.delete(
+      await axios.delete(
         'http://localhost:5000/delete',
         // 'https://crework.bilzo.in/delete',
         {
@@ -110,9 +110,6 @@ export default function TaskContextProvider({ children }) {
           }
         }
       );
-      if (response.status === 200) {
-        localStorage.setItem('subscriptionInfo', JSON.stringify(response.data.subscriptionInstance));
-      }
     } catch (error) {
       console.log(error);
     }
@@ -134,9 +131,7 @@ export default function TaskContextProvider({ children }) {
           }
         }
       );
-      if (response.status === 200) {
-        localStorage.setItem('subscriptionInfo', JSON.stringify(response.data.subscriptionInstance));
-      }
+      return response.status === 200 || false;
     } catch (error) {
       console.log(error);
     }
