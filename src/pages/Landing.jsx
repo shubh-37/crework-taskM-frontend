@@ -41,7 +41,10 @@ export default function Landing() {
     }
   };
   useEffect(() => {
-    getAllTasks();
+    const fetchTasks = async () => {
+      await getAllTasks();
+    };
+    fetchTasks();
   }, []);
 
   return (
