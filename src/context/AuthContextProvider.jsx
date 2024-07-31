@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { useState } from 'react';
 import { createContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,17 +6,18 @@ export const authContext = createContext();
 
 // eslint-disable-next-line react/prop-types
 export default function AuthProvider({ children }) {
-  const [isLogin, setIslogin] = useState(false);
+  const token = localStorage.getItem('token');
   const navigate = useNavigate();
 
   async function signUpUser(user) {
     try {
-      const response = await axios.post('http://localhost:5000/register', user);
+      //http://localhost:5000/register
+      const response = await axios.post('https://crework.bilzo.in/register', user);
       if (response.status === 201) {
         if (response.data.token) {
           localStorage.setItem('token', response.data.token);
           localStorage.setItem('user', JSON.stringify(response.data.user));
-          setIslogin(true);
+
           navigate('/');
           return 'success';
         }
@@ -33,12 +33,12 @@ export default function AuthProvider({ children }) {
 
   async function loginUser(user) {
     try {
-      const response = await axios.post('http://localhost:5000/login', user);
+      //http://localhost:5000/login
+      const response = await axios.post('https://crework.bilzo.in/login', user);
       if (response.status === 200) {
         if (response.data.token) {
           localStorage.setItem('token', response.data.token);
           localStorage.setItem('user', JSON.stringify(response.data.userInstance));
-          setIslogin(true);
           navigate('/');
           return 'success';
         }
@@ -55,7 +55,7 @@ export default function AuthProvider({ children }) {
 
   function logoutUser() {
     localStorage.removeItem('token');
-    setIslogin(false);
+    navigate('/login');
   }
-  return <authContext.Provider value={{ isLogin, logoutUser, signUpUser, loginUser }}>{children}</authContext.Provider>;
+  return <authContext.Provider value={{ token, logoutUser, signUpUser, loginUser }}>{children}</authContext.Provider>;
 }
