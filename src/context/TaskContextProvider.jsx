@@ -6,12 +6,13 @@ export const taskContext = createContext();
 export default function TaskContextProvider({ children }) {
   const token = localStorage.getItem('token');
   const customerInfo = JSON.parse(localStorage.getItem('user'));
+  const [isOpen, setIsOpen] = useState(false);
   const [tasks, setTasks] = useState({
     toDo: [
       {
         id: 1,
-        title: 'Implement User Authentication',
-        desc: 'Develop and integrate user authentication using email and password',
+        taskTitle: 'Implement User Authentication',
+        description: 'Develop and integrate user authentication using email and password',
         priority: 'urgent',
         deadline: '2024-08-03'
       }
@@ -19,8 +20,8 @@ export default function TaskContextProvider({ children }) {
     underReview: [
       {
         id: 2,
-        title: 'Design Home Page UI',
-        desc: 'Develop and integrate user authentication using email and password',
+        taskTitle: 'Design Home Page UI',
+        description: 'Develop and integrate user authentication using email and password',
         priority: 'urgent',
         deadline: '2024-08-03'
       }
@@ -28,8 +29,8 @@ export default function TaskContextProvider({ children }) {
     inProgress: [
       {
         id: 3,
-        title: 'Integrate Cloud Storage',
-        desc: 'Develop and integrate user authentication using email and password',
+        taskTitle: 'Integrate Cloud Storage',
+        description: 'Develop and integrate user authentication using email and password',
         priority: 'low',
         deadline: '2024-08-03'
       }
@@ -37,8 +38,8 @@ export default function TaskContextProvider({ children }) {
     finished: [
       {
         id: 4,
-        title: 'Conduct User Feedback Survey',
-        desc: 'Develop and integrate user authentication using email and password',
+        taskTitle: 'Conduct User Feedback Survey',
+        description: 'Develop and integrate user authentication using email and password',
         priority: 'medium',
         deadline: '2024-08-03'
       }
@@ -49,8 +50,8 @@ export default function TaskContextProvider({ children }) {
     const { priority, status, title, description, deadline } = taskObj;
     try {
       const response = await axios.post(
-        'http://localhost:5000/create',
-        // 'https://crework.bilzo.in/create'
+        // 'http://localhost:5000/create',
+        'https://crework.bilzo.in/create',
         {
           user: customerInfo._id,
           priority,
@@ -75,8 +76,8 @@ export default function TaskContextProvider({ children }) {
   async function getAllTasks() {
     try {
       const response = await axios.get(
-        'http://localhost:5000/all-tasks',
-        // 'https://crework.bilzo.in/',
+        // 'http://localhost:5000/all-tasks',
+        'https://crework.bilzo.in/all-tasks',
         {
           params: {
             userId: customerInfo._id
@@ -97,8 +98,8 @@ export default function TaskContextProvider({ children }) {
   async function deleteTask(taskId) {
     try {
       await axios.delete(
-        'http://localhost:5000/delete',
-        // 'https://crework.bilzo.in/delete',
+        // 'http://localhost:5000/delete',
+        'https://crework.bilzo.in/delete',
         {
           id: taskId,
           userId: customerInfo._id
@@ -117,8 +118,8 @@ export default function TaskContextProvider({ children }) {
   async function updateTask(taskId, status) {
     try {
       const response = await axios.put(
-        'http://localhost:5000/update',
-        // 'https://crework.bilzo.in/delete',
+        // 'http://localhost:5000/update',
+        'https://crework.bilzo.in/update',
         {
           id: taskId,
           userId: customerInfo._id,
@@ -144,7 +145,9 @@ export default function TaskContextProvider({ children }) {
         createTask,
         updateTask,
         tasks,
-        setTasks
+        setTasks,
+        isOpen,
+        setIsOpen
       }}
     >
       {children}{' '}
