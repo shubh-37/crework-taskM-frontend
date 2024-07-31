@@ -7,18 +7,59 @@ import homeIcon from '../assets/icons/home.svg';
 import settingIcon from '../assets/icons/setting.svg';
 import boardIcon from '../assets/icons/board.svg';
 import teamsIcon from '../assets/icons/teams.svg';
+
 import analyticsIcon from '../assets/icons/analytics.svg';
+import filterIcon from '../assets/icons/filter.svg';
+import sharingIcon from '../assets/icons/share-icon.svg';
 import plusIcon from '../assets/icons/plus.svg';
+import automationIcon from '../assets/icons/automation.svg';
 import userIcon from '../assets/icons/user.svg';
+import helpIcon from '../assets/icons/help.svg';
+import calenderIcon from '../assets/icons/calender.svg';
+import shareIcon from '../assets/icons/share.svg';
+import accessIcon from '../assets/icons/access.svg';
+import tagsIcon from '../assets/icons/tags.svg';
 import TaskCard from '../components/TaskCard';
 import { useState } from 'react';
 import ProfileModal from '../components/CreateTaskModal';
 export default function Landing() {
   const [tasks, setTasks] = useState({
-    toDo: [{ id: 1, text: 'Implement User Authentication' }],
-    underReview: [{ id: 2, text: 'Design Home Page UI' }],
-    inProgress: [{ id: 3, text: 'Integrate Cloud Storage' }],
-    finished: [{ id: 4, text: 'Conduct User Feedback Survey' }]
+    toDo: [
+      {
+        id: 1,
+        title: 'Implement User Authentication',
+        desc: 'Develop and integrate user authentication using email and password',
+        priority: 'urgent',
+        deadline: '2024-08-03'
+      }
+    ],
+    underReview: [
+      {
+        id: 2,
+        title: 'Design Home Page UI',
+        desc: 'Develop and integrate user authentication using email and password',
+        priority: 'urgent',
+        deadline: '2024-08-03'
+      }
+    ],
+    inProgress: [
+      {
+        id: 3,
+        title: 'Integrate Cloud Storage',
+        desc: 'Develop and integrate user authentication using email and password',
+        priority: 'low',
+        deadline: '2024-08-03'
+      }
+    ],
+    finished: [
+      {
+        id: 4,
+        title: 'Conduct User Feedback Survey',
+        desc: 'Develop and integrate user authentication using email and password',
+        priority: 'medium',
+        deadline: '2024-08-03'
+      }
+    ]
   });
   const [isOpen, setIsOpen] = useState(false);
 
@@ -92,42 +133,82 @@ export default function Landing() {
           </div>
         </nav>
         <main className="main-content">
-          <h4>Good Morning Shubh!</h4>
+          <div className="header">
+            {' '}
+            <h2 className="main-heading">Good morning, Shubh!</h2>
+            <span className="user-header">
+              <p>Help & Feedback</p>
+              <img src={helpIcon} alt="" />
+            </span>
+          </div>
+
           <div className="features">
-            <div>
-              <h3>Introducing Tags</h3>
-              <p>
-                Easily categorize and find your notes by adding tags. Keep your workspace clutter-free and efficient
-              </p>
+            <div className="feature">
+              <img src={tagsIcon} alt="" />
+              <span>
+                <h4 className="feature-heading">Introducing tags</h4>
+                <p className="feature-desc">
+                  Easily categorize and find your notes by adding tags. Keep your workspace clutter-free and efficient
+                </p>
+              </span>
             </div>
-            <div>
-              <h3>Share Notes Instantly</h3>
-              <p>
-                Effortlessly share your notes with others via email or link. Enhance collaboration with quick sharing
-                options.
-              </p>
+            <div className="feature">
+              <img src={shareIcon} alt="" />
+              <span>
+                <h4 className="feature-heading">Share Notes Instantly</h4>
+                <p className="feature-desc">
+                  Effortlessly share your notes with others via email or link. Enhance collaboration with quick sharing
+                  options.
+                </p>
+              </span>
             </div>
-            <div>
-              <h3>Access Anywhere</h3>
-              <p>
-                Sync your notes across all devices. Stay productive whether youre on your phone, tablet, or computer.
-              </p>
+            <div className="feature">
+              <img src={accessIcon} alt="" />
+              <span>
+                <h4 className="feature-heading">Access Anywhere</h4>
+                <p className="feature-desc">
+                  Sync your notes across all devices. Stay productive whether youre on your phone, tablet, or computer.
+                </p>
+              </span>
             </div>
           </div>
           <div className="filters">
-            <input type="text" name="" id="" placeholder="Search" />
+            <input type="text" name="" id="" placeholder="Search" className="search" />
             <div className="filter-btns">
-              <button>Calender View</button>
-              <button>Automation</button>
-              <button>Filter</button>
-              <button>Share</button>
-              <button onClick={() => setIsOpen(true)}>Create new +</button>
+              <button className="filter-btn">
+                {' '}
+                Calender View
+                <img src={calenderIcon} alt="" />
+              </button>
+              <button className="filter-btn">
+                Automation <img src={automationIcon} alt="" />
+              </button>
+              <button className="filter-btn">
+                Filter <img src={filterIcon} alt="" />
+              </button>
+              <button className="filter-btn">
+                Share <img src={sharingIcon} alt="" />
+              </button>
+              <button className="create-task-btn2" onClick={() => setIsOpen(true)}>
+                Create new <img src={plusIcon} alt="" />
+              </button>
             </div>
           </div>
           <div className="task-manager">
-            {['toDo', 'inProgress', 'underReview', 'finished'].map((status) => (
-              <div key={status}>
-                <TaskCard key={status} status={status} tasks={tasks} onTaskUpdate={handleTaskUpdate} />
+            {[
+              { status: 'toDo', heading: 'To Do' },
+              { status: 'inProgress', heading: 'In Progress' },
+              { status: 'underReview', heading: 'Under Review' },
+              { status: 'finished', heading: 'Finished' }
+            ].map((obj) => (
+              <div key={obj.status} className="task-bar">
+                <TaskCard
+                  key={obj.status}
+                  status={obj.status}
+                  tasks={tasks}
+                  onTaskUpdate={handleTaskUpdate}
+                  heading={obj.heading}
+                />
               </div>
             ))}
           </div>
