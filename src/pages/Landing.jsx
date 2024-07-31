@@ -1,5 +1,9 @@
 import { NavLink } from 'react-router-dom';
-import '../css/landing.css';
+import { useContext, useEffect } from 'react';
+import CreateTaskModal from '../components/CreateTaskModal';
+import { taskContext } from '../context/TaskContextProvider';
+import { authContext } from '../context/AuthContextProvider';
+import { getTimeOfDay } from '../components/utils';
 import bellIcon from '../assets/icons/bell.svg';
 import lightIcon from '../assets/icons/light.svg';
 import forwardIcon from '../assets/icons/forward.svg';
@@ -7,7 +11,6 @@ import homeIcon from '../assets/icons/home.svg';
 import settingIcon from '../assets/icons/setting.svg';
 import boardIcon from '../assets/icons/board.svg';
 import teamsIcon from '../assets/icons/teams.svg';
-
 import analyticsIcon from '../assets/icons/analytics.svg';
 import filterIcon from '../assets/icons/filter.svg';
 import sharingIcon from '../assets/icons/share-icon.svg';
@@ -20,14 +23,12 @@ import shareIcon from '../assets/icons/share.svg';
 import accessIcon from '../assets/icons/access.svg';
 import tagsIcon from '../assets/icons/tags.svg';
 import TaskCard from '../components/TaskCard';
-import { useContext, useEffect, useState } from 'react';
-import ProfileModal from '../components/CreateTaskModal';
-import { taskContext } from '../context/TaskContextProvider';
-import { authContext } from '../context/AuthContextProvider';
+import '../css/landing.css';
+
 export default function Landing() {
-  const { tasks, setTasks, getAllTasks, updateTask } = useContext(taskContext);
-  const { logOutUser } = useContext(authContext);
-  const [isOpen, setIsOpen] = useState(false);
+  const { tasks, setTasks, getAllTasks, updateTask, isOpen, setIsOpen } = useContext(taskContext);
+  const { logoutUser } = useContext(authContext);
+  const customerInfo = JSON.parse(localStorage.getItem('user'));
 
   const handleTaskUpdate = async ({ targetStatus, taskId }) => {
     const updateResponse = await updateTask(taskId, targetStatus);
@@ -46,7 +47,7 @@ export default function Landing() {
         <nav className="navbar">
           <span className="user-header">
             <img src={userIcon} alt="" />
-            <p className="user-name">Shubh Arya</p>
+            <p className="user-name">{customerInfo.fullName || 'John Doe'}</p>
           </span>
 
           <div className="shortcuts">
@@ -55,7 +56,7 @@ export default function Landing() {
               <img src={lightIcon} alt="" />
               <img src={forwardIcon} alt="" />
             </span>
-            <button className="logout-btn" onClick={() => logOutUser()}>
+            <button className="logout-btn" onClick={() => logoutUser()}>
               Logout
             </button>
           </div>
@@ -98,7 +99,7 @@ export default function Landing() {
                 </span>
               )}
             </NavLink>
-            <button className="create-task-btn">
+            <button className="create-task-btn" onClick={() => setIsOpen(true)}>
               Create new task <img src={plusIcon} alt="" />
             </button>
           </div>
@@ -106,7 +107,9 @@ export default function Landing() {
         <main className="main-content">
           <div className="header">
             {' '}
-            <h2 className="main-heading">Good morning, Shubh!</h2>
+            <h2 className="main-heading">
+              Good {getTimeOfDay()}, {customerInfo.fullName.split(' ')[0] || 'John'}!
+            </h2>
             <span className="user-header">
               <p>Help & Feedback</p>
               <img src={helpIcon} alt="" />
@@ -183,7 +186,7 @@ export default function Landing() {
               </div>
             ))}
           </div>
-          {isOpen && <ProfileModal closeModal={setIsOpen} />}
+          {isOpen && <CreateTaskModal closeModal={setIsOpen} />}
         </main>
       </div>
     </>
