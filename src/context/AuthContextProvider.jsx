@@ -34,11 +34,9 @@ export default function AuthProvider({ children }) {
   async function loginUser(user) {
     try {
       const response = await axios.post('http://localhost:5000/login', user);
-      console.log(response);
       if (response.status === 200) {
         if (response.data.token) {
           localStorage.setItem('token', response.data.token);
-          console.log(response.data.userInstance);
           localStorage.setItem('user', JSON.stringify(response.data.userInstance));
           setIslogin(true);
           navigate('/');
