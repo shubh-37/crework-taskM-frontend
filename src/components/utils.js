@@ -10,3 +10,12 @@ export function getTimeOfDay() {
     return 'evening';
   }
 }
+
+export function getTimeDifferenceInHours(createdAt) {
+  const now = moment();
+  const createdTime = moment(createdAt);
+  const duration = moment.duration(now.diff(createdTime));
+  const hours = duration.asHours();
+
+  return hours;
+}
