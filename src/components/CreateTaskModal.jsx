@@ -1,13 +1,25 @@
 /* eslint-disable react/prop-types */
-import { useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import statusIcon from '../assets/icons/status.svg';
 import priorityIcon from '../assets/icons/priority.svg';
 import calenderIcon from '../assets/icons/calender.svg';
 import descriptionIcon from '../assets/icons/description.svg';
 import '../css/profilemodal.css';
+import { taskContext } from '../context/TaskContextProvider';
 
 export default function ProfileModal({ closeModal }) {
-  //   const { state } = useContext(postContext);
+  const { createTask } = useContext(taskContext);
+  const [task, setTask] = useState({});
+  function inputHandler(e) {
+    setTask({
+      ...task,
+      [e.target.name]: e.target.value
+    });
+  }
+  async function submitTask() {
+    const response = await createTask(task);
+    closeModal(false);
+  }
   useEffect(() => window.scrollTo(0, 0), []);
   return (
     <>
@@ -34,53 +46,65 @@ export default function ProfileModal({ closeModal }) {
             </div>
           </div>
           <div className="modal-header">
-            <label htmlFor="firstName" style={{ color: 'black' }}></label>
-            <input type="text" name="firstName" id="firstName" className="title" placeholder="Title" />
+            <label htmlFor="title" style={{ color: 'black' }}></label>
+            <input
+              type="text"
+              name="title"
+              id="title"
+              className="title"
+              placeholder="Title"
+              onChange={(e) => inputHandler(e)}
+            />
           </div>
           <div className="modal-body">
             <div className="task-field">
               <img src={statusIcon} alt="" />
 
               <h4>Status</h4>
-              <select name="" id="" className="status">
-                <option value="toDo" defaultValue="Not Selected">
+              <select name="status" id="" className="status" onChange={(e) => inputHandler(e)}>
+                <option value="" defaultValue="Not Selected">
                   Not Selected
                 </option>
                 <option value="toDo">To Do</option>
-                <option value="toDo">In Progress</option>
-                <option value="toDo">Under Review</option>
-                <option value="toDo">Finished</option>
+                <option value="inProgress">In Progress</option>
+                <option value="underReview">Under Review</option>
+                <option value="Finished">Finished</option>
               </select>
             </div>
             <div className="task-field">
               <img src={priorityIcon} alt="" />
               <h4>Priority</h4>
-              <select name="" id="" className="status">
-                <option value="toDo" defaultValue="Not Selected">
+              <select name="priority" id="" className="status" onChange={(e) => inputHandler(e)}>
+                <option value="" defaultValue="Not Selected">
                   Not Selected
                 </option>
-                <option value="toDo">Urgent</option>
-                <option value="toDo">Medium</option>
-                <option value="toDo">Low</option>
+                <option value="urgent">Urgent</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
               </select>
             </div>
             <div className="task-field">
               <img src={calenderIcon} alt="" />
               <h4>Deadline</h4>
-              <input type="date" name="" id="" />
+              <input type="date" name="deadline" id="" onChange={(e) => inputHandler(e)} />
             </div>
             <div className="task-field">
               <img src={descriptionIcon} alt="" />
               <h4>Description</h4>
-              <input type="text" name="" id="" placeholder="Start typing..." />
+              <input
+                type="text"
+                name="description"
+                id=""
+                placeholder="Start typing..."
+                onChange={(e) => inputHandler(e)}
+              />
             </div>
             <p>+ Add custom property</p>
           </div>
           <div className="modal-footer">
-            <button onClick={() => closeModal(false)} className="cancel-btn">
+            <button onClick={() => submitTask()} className="cancel-btn">
               Save
             </button>
-            {/* <button onClick={() => saveProfile()}>Update Profile</button> */}
           </div>
         </div>
       </div>
