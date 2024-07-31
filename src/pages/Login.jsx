@@ -75,6 +75,14 @@ export default function LoginPage() {
       notify(e, 'wrong email');
     }
   }
+  async function guestLogin(e) {
+    const response = await loginUser({ emailId: 'joe.gardner@gmail.com', password: '123' });
+    if (response === 'success') {
+      notify(e, response);
+    } else {
+      notify(e, response);
+    }
+  }
   return (
     <div className="background">
       <div className="signup-parent">
@@ -123,7 +131,9 @@ export default function LoginPage() {
             Login
           </button>
         </form>
-        <button className="signup-btn">Guest login</button>
+        <button className="signup-btn" onClick={(e) => guestLogin(e)}>
+          Guest login
+        </button>
         <p className="signup-text">
           Don't have an account? Create a
           <Link to="/sign-up" className="signup-link">

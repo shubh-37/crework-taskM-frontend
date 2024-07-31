@@ -6,7 +6,7 @@ import '../css/login.css';
 import { toast } from 'react-toastify';
 
 export default function SignUpPage() {
-  const { signUpUser } = useContext(authContext);
+  const { signUpUser, loginUser } = useContext(authContext);
   const [user, setUser] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const emailChecker =
@@ -75,6 +75,14 @@ export default function SignUpPage() {
       notify(e, 'wrong email');
     }
   }
+  async function guestLogin(e) {
+    const response = await loginUser({ emailId: 'joe.gardner@gmail.com', password: '123' });
+    if (response === 'success') {
+      notify(e, response);
+    } else {
+      notify(e, response);
+    }
+  }
   return (
     <div className="background">
       <div className="signup-parent">
@@ -124,7 +132,9 @@ export default function SignUpPage() {
             Sign up
           </button>
         </form>
-        <button className="signup-btn">Guest login</button>
+        <button className="signup-btn" onClick={(e) => guestLogin(e)}>
+          Guest login
+        </button>
         <p className="signup-text">
           Already have an account?
           <Link to="/login" className="signup-link">
